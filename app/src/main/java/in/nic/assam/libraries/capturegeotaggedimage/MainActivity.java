@@ -7,6 +7,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
@@ -43,6 +46,8 @@ public class MainActivity extends AppCompatActivity {
 
     FusedLocationProviderClient mFusedLocationClient;
     int PERMISSION_ID = 44;
+    private double latitude;
+    private double longitude;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,7 +64,6 @@ public class MainActivity extends AppCompatActivity {
                     Intent takePicture = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
                     startActivityForResult(takePicture, 0);
 
-                    //  chooseImage(MainActivity.this);
                 }
             }
         });
@@ -126,6 +130,21 @@ public class MainActivity extends AppCompatActivity {
             if (requestCode == 0) {
                 if (resultCode == RESULT_OK && data != null) {
                     Bitmap selectedImage = (Bitmap) data.getExtras().get("data");
+
+
+                    Canvas canvas = new Canvas(selectedImage);
+                    Paint paint = new Paint();
+                    paint.setAntiAlias(true);
+                    paint.setSubpixelText(false);
+                    paint.setStyle(Paint.Style.FILL);
+                    paint.setARGB(255, 255, 255, 255);
+                    paint.setFakeBoldText(true);
+                    paint.setColor(Color.BLACK);
+                    paint.setTextSize(8);
+                    canvas.drawText("Coordinates is: "+latitude+", "+longitude, 10, 50, paint);
+
+
+
                     imageView.setImageBitmap(selectedImage);
                     captureImageButton.setVisibility(View.GONE);
                 }
@@ -154,6 +173,8 @@ public class MainActivity extends AppCompatActivity {
                         if (location == null) {
                             requestNewLocationData();
                         } else {
+                            latitude = location.getLatitude();
+                            longitude = location.getLongitude();
                             Toast.makeText(MainActivity.this, "LatLong is: "+location.getLatitude()+", "+location.getLongitude(), Toast.LENGTH_SHORT).show();
                         }
                     }
