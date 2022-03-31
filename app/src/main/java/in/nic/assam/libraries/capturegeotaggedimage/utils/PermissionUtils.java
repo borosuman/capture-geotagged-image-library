@@ -1,4 +1,4 @@
-package in.nic.assam.libraries.capturegeotaggedimage.permission;
+package in.nic.assam.libraries.capturegeotaggedimage.utils;
 
 import android.app.Activity;
 import android.app.AlertDialog;
