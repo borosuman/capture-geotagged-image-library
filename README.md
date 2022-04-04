@@ -5,7 +5,7 @@ An Android library to capture geotagged image with the help of camera.
 ```
 implementation 'com.github.borosuman:capture-geotagged-image-library:1.0.1'
 ```
-## Step 2: Call the CameraControlActivity.class from your CameraControlActivity
+## Step 2: Call the CameraControlActivity.class from your Activity
 ```
    Intent i = new Intent(MainActivity.this, CameraControlActivity.class);
    startActivityForResult(i,CAMERA_CONTROL_ACTIVITY_REQUEST_CODE);
