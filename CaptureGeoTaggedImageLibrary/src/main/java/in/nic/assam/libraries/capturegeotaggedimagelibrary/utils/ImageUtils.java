@@ -1,4 +1,4 @@
-package in.nic.assam.libraries.capturegeotaggedimage.utils;
+package in.nic.assam.libraries.capturegeotaggedimagelibrary.utils;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -19,11 +19,11 @@ public class ImageUtils {
         Resources resources = gContext.getResources();
         float scale = resources.getDisplayMetrics().density;
 
-        android.graphics.Bitmap.Config bitmapConfig =
+        Bitmap.Config bitmapConfig =
                 bitmap.getConfig();
         // set default bitmap config if none
         if (bitmapConfig == null) {
-            bitmapConfig = android.graphics.Bitmap.Config.ARGB_8888;
+            bitmapConfig = Bitmap.Config.ARGB_8888;
         }
         // resource bitmaps are imutable,
         // so we need to convert it to mutable one

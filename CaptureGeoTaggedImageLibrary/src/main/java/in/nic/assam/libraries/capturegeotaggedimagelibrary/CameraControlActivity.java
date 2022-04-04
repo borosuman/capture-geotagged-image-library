@@ -1,7 +1,8 @@
-package in.nic.assam.libraries.capturegeotaggedimage;
+package in.nic.assam.libraries.capturegeotaggedimagelibrary;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
 import android.net.Uri;
@@ -19,9 +20,10 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Objects;
 
-import in.nic.assam.libraries.capturegeotaggedimage.image.ImageMetaData;
-import in.nic.assam.libraries.capturegeotaggedimage.utils.LocationUtils;
-import in.nic.assam.libraries.capturegeotaggedimage.utils.PermissionUtils;
+import in.nic.assam.libraries.capturegeotaggedimagelibrary.image.ImageMetaData;
+import in.nic.assam.libraries.capturegeotaggedimagelibrary.utils.LocationUtils;
+import in.nic.assam.libraries.capturegeotaggedimagelibrary.utils.PermissionUtils;
+
 
 public class CameraControlActivity extends AppCompatActivity implements PermissionUtils.PermissionResultCallback, LocationUtils.LocationResultCallback {
 
@@ -136,7 +138,7 @@ public class CameraControlActivity extends AppCompatActivity implements Permissi
         // See https://guides.codepath.com/android/Sharing-Content-with-Intents#sharing-files-with-api-24-or-higher
         //    Uri fileProvider = FileProvider.getUriForFile(CameraControlActivity.this, "in.nic.assam.libraries.capturegeotaggedimage.fileprovider", photoFile);
         Uri fileProvider = FileProvider.getUriForFile(Objects.requireNonNull(getApplicationContext()),
-                BuildConfig.APPLICATION_ID + ".provider", photoFile);
+                getApplicationContext().getPackageName() + ".provider", photoFile);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, fileProvider);
 
         // If you call startActivityForResult() using an intent that no app can handle, your app will crash.

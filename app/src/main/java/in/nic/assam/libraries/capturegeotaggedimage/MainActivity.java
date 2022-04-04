@@ -5,16 +5,19 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.Toast;
+
+import in.nic.assam.libraries.capturegeotaggedimage.image.GeoTaggedImage;
+import in.nic.assam.libraries.capturegeotaggedimage.image.ImageMetaData;
 
 public class MainActivity extends AppCompatActivity {
 
     private static final int CAMERA_CONTROL_ACTIVITY_REQUEST_CODE = 3434;
+    private static final String TAG = MainActivity.class.getSimpleName();
 
     private ImageView previewImageView;
     private Button captureButton;
@@ -25,7 +28,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         previewImageView = findViewById(R.id.preview_iv);
         captureButton = findViewById(R.id.capture_btn);
-
         captureButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -42,15 +44,20 @@ public class MainActivity extends AppCompatActivity {
         switch(requestCode) {
             case (CAMERA_CONTROL_ACTIVITY_REQUEST_CODE) : {
                 if (resultCode == Activity.RESULT_OK) {
-                    // TODO Extract the data returned from the child Activity.
-                    String returnValue = data.getStringExtra("some_key");
-                    if(getIntent().hasExtra("byteArray")) {
-                        Bitmap b = BitmapFactory.decodeByteArray(
-                                getIntent().getByteArrayExtra("byteArray"),0,getIntent().getByteArrayExtra("byteArray").length);
-                        previewImageView.setImageBitmap(b);
-                    }
 
-                    Toast.makeText(MainActivity.this, "Hey this is the returned value"+returnValue, Toast.LENGTH_SHORT).show();
+                    ImageMetaData imageMetaData;
+                    imageMetaData = data.getParcelableExtra("captured_image");
+
+                    GeoTaggedImage geoTaggedImage = new GeoTaggedImage.Builder()
+                            .withContext(this)
+                            .withImageMetaData(imageMetaData)
+                            .withTextColor(Color.YELLOW)
+                            .withTextSize(55)
+                            .withGravity(0)
+                            .build();
+
+                    Bitmap processedBitmap = geoTaggedImage.processGeoTaggedImage();
+                    previewImageView.setImageBitmap(processedBitmap);
                 }
                 break;
             }
